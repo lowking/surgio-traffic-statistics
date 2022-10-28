@@ -1,0 +1,36 @@
+#!/bin/bash
+set -e
+####################################
+#           Configration           #
+####################################
+# get ck from F12 in your surgio provider
+# like:_t=s%3Apassword.Nunfft5p5NTrNEKWDdfd2nUdNGs1TZsmqCs0kFflu0 
+ck=""
+# repo clone path
+# like /Users/lowking/surgio-traffic-statistics/
+stsmjsPath="/Users/lowking/surgio-traffic-statistics"
+# your surgio domain
+# like: http://<your surgio host>:<port>
+domain=""
+
+####################################
+#               END                #
+####################################
+
+get() {
+  export domain="${domain}" && export ck="${ck}" && zx ${stsmjsPath}/sts.mjs ${stsmjsPath} $1 $2
+}
+
+log() {
+  path=$1/$2
+  cat ${stsmjsPath}/$path/*.log
+}
+
+case "$1" in
+get | log )
+  $*
+  ;;
+* )
+  echo "valid commands: get, log" >&2
+  exit 1
+esac
