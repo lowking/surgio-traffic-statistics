@@ -3,9 +3,7 @@ set -e
 ####################################
 #           Configration           #
 ####################################
-# get ck from F12 in your surgio provider
-# like:_t=s%3Apassword.Nunfft5p5NTrNEKWDdfd2nUdNGs1TZsmqCs0kFflu0 
-ck=""
+pwd="your password+"
 # repo clone path
 # like /Users/lowking/surgio-traffic-statistics/
 stsmjsPath="/Users/lowking/surgio-traffic-statistics"
@@ -18,7 +16,7 @@ domain=""
 ####################################
 
 get() {
-  export domain="${domain}" && export ck="${ck}" && zx ${stsmjsPath}/sts.mjs ${stsmjsPath} $1 $2
+  export surgioPwd="${pwd}" && export domain="${domain}" && zx ${stsmjsPath}/sts.mjs ${stsmjsPath} $1 $2
 }
 
 log() {

@@ -33,8 +33,10 @@ if (preDate) {
     preLeft = `${preData.data.left}`;
     preDataTime = `, ${formatTimeDuring(date - preDate)} since last time`;
 }
-let ck = decodeURIComponent(`${process.env.ck}`)
-let ret = await $`curl -s '${domain}/api/providers/${provider}/subscription' -H 'Proxy-Connection: keep-alive' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36' -H 'Accept: */*' -H 'Accept-Language: zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7,ja;q=0.6' -H 'Cookie: ${ck}' --compressed --insecure`;
+let body = `{"accessToken":"${process.env.surgioPwd}"}`
+let cookie = await $`curl -s -i '${domain}/api/auth' -H 'Proxy-Connection: keep-alive' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36' -H 'content-type: application/json' -H 'Accept: */*' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-raw ${body} --compressed --insecure |grep "Set-Cookie" |head -n 1 |awk '{print $2}'`
+let cookieHeader = 'Cookie: ' + cookie
+let ret = await $`curl -s '${domain}/api/providers/${provider}/subscription' -H 'Proxy-Connection: keep-alive' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36' -H 'Accept: */*' -H 'Accept-Language: zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7,ja;q=0.6' -H ${cookieHeader} --compressed --insecure`;
 let obj = JSON.parse(ret);
 if ("ok" == obj.status) {
     let upload = obj.data.upload;
