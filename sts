@@ -21,7 +21,9 @@ get() {
 
 log() {
   path=$1/$2
-  cat ${stsmjsPath}/$path/*.log
+  # cat ${stsmjsPath}/$path/*.log
+  # ls -tr ${stsmjsPath}/$path/*.log |head -n 10 |xargs cat
+  find "${stsmjsPath}/$path/" -maxdepth 1 -name "*.log" |sort |tail -n -10 |xargs cat
 }
 
 case "$1" in
