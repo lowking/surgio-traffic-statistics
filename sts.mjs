@@ -6,8 +6,10 @@ const provider = `${process.argv[4]}`
 let suffix = `${process.argv[5]}`
 if (suffix == "undefined") {
     suffix = ''
+} else {
+    suffix = '/' + suffix
 }
-const rootPath = `${process.argv[3]}/${provider}/${suffix}`
+const rootPath = `${process.argv[3]}/${provider}${suffix}`
 const domain = `${process.env.domain}`
 await $`mkdir -p ${rootPath}`
 const preDateFilePath = `${rootPath}/surgio-pre-data`;
@@ -151,7 +153,11 @@ function formatTimeDuring(total, n = 0) {
 }
 
 function fileLengthFormat(total, unit, toByte) {
+    unit = unit.replace("i", "")
     total = Number(total);
+    if (!Number.isFinite(total)) {
+        return total
+    }
     var unitArr = ["", "KB", "MB", "GB", "TB", "PB", "EB", "ZB"];
     var n = 0;
     try {
